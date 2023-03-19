@@ -21,4 +21,19 @@ steps:
     scriptPath: 'restartnginx.sh'
   displayName: 'Restart Nginx Service'
 
+- task: Docker@2
+  displayName: 'Build and Push Docker image'
+  inputs:
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+    repository: 'meriregistryhai.azurecr.io/myimage'
+    tags: 'latest'
 
+- task: Docker@2
+  displayName: 'Run Docker container'
+  inputs:
+    command: 'run'
+    repository: 'meriregistryhai.azurecr.io/myimage'
+    containerName: 'mycontainer'
+    detach: true
+    ports: '80:80'
