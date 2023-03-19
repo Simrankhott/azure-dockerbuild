@@ -6,7 +6,7 @@ trigger:
 - master
 
 pool:
-  name: mynewagent
+  name: newagent
 
 resources:
 - repo: self
