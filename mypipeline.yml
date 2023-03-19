@@ -8,8 +8,6 @@ steps:
 - task: Docker@2
   displayName: Build an image
   inputs:
-    repository: meriregistryhai.azurecr.io/imagename
+    repository: meriregistryhai
     command: build
-    Dockerfile: Dockerfile
-    buildContext: $(System.DefaultWorkingDirectory)
-    containerRegistry: meriregistryhai
+    Dockerfile: './Dockerfile'
