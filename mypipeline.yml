@@ -7,13 +7,7 @@ pool:
 steps:
 - script: |
     choco install nginx -y
-    echo "<h1>Hello World</h1>" | Out-File -FilePath 'C:\Program Files (x86)\nginx\html\index.html' -Encoding utf8
-  displayName: 'Install Nginx and Deploy Hello World'
-
-- script: |
-    sc.exe stop nginx
-    sc.exe start nginx
-  displayName: 'Restart Nginx Service'
+    mkdir sim
 
 - script: |
     Invoke-WebRequest http://localhost:80
