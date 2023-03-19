@@ -5,17 +5,29 @@ pool:
   name: mycomputeragent
 
 steps:
-- script: |
-    sudo apt-get update -y
-    sudo apt-get install nginx -y
-    sudo systemctl start nginx
-    echo "<h1>Hello World</h1>" | sudo tee /var/www/html/index.html
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+    architecture: 'x64'
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      choco install nginx -y
+      echo "<h1>Hello World</h1>" | Out-File -FilePath 'C:\Program Files\nginx\html\index.html' -Encoding utf8
   displayName: 'Install Nginx and Deploy Hello World'
 
-- script: |
-    sudo systemctl restart nginx
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      Start-Service nginx
   displayName: 'Restart Nginx Service'
 
-- script: |
-    curl http://20.244.35.154
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      Invoke-WebRequest -UseBasicParsing http://localhost
   displayName: 'Test Nginx Deployment'
