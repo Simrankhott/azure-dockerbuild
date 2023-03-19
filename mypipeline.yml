@@ -19,11 +19,6 @@ steps:
     sudo systemctl enable docker
   displayName: 'Install Nginx and other softwares'
 
-- task: ShellScript@2
-  inputs:
-    scriptPath: 'restartnginx.sh'
-  displayName: 'Restart Nginx Service'
-
 - task: Docker@2
   displayName: 'Build and Push Docker image'
   inputs:
@@ -31,6 +26,10 @@ steps:
     Dockerfile: '**/Dockerfile'
     repository: 'meriregistryhai.azurecr.io/myimage'
     tags: 'latest'
+    containerRegistry: 'meriregistryhai.azurecr.io'
+    containerRepository: 'myimage'
+    containerUsername: 'meriregistryhai'
+    containerPassword: 'xxVc1NTOonvAbAGNhLzntFONBZrQkxWFAKAjy7gsY1+ACRAaSYpr'
 
 - task: Docker@2
   displayName: 'Run Docker container'
@@ -40,3 +39,6 @@ steps:
     containerName: 'mycontainer'
     detach: true
     ports: '80:80'
+    containerRegistry: 'meriregistryhai.azurecr.io'
+    containerUsername: 'meriregistryhai'
+    containerPassword: 'xxVc1NTOonvAbAGNhLzntFONBZrQkxWFAKAjy7gsY1+ACRAaSYpr'
