@@ -1,8 +1,8 @@
 trigger:
 - main
 
-pool:
-  pool: mycomputeragent
+
+pool: mycomputeragent
 
 steps:
 - task: UsePythonVersion@0
