@@ -1,10 +1,25 @@
-pool:
-  name: newagent
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
-steps:
-- task: Docker@2
-  displayName: Build an image
-  inputs:
-    repository: meriregistryhai.azurecr.io/myimage
-    command: build
-    Dockerfile: $(Build.SourcesDirectory)/Dockerfile
+trigger:
+- master
+
+pool:
+  name: mynewagent
+
+resources:
+- repo: self
+
+stages:
+- stage: Build_and_push
+  jobs:
+  - job: Build
+    steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'myconnection'
+        repository: 'meriregistryhai'
+        command: 'buildAndPush'
+        Dockerfile: 'Dockerfile'
+        tags: 'latest'
