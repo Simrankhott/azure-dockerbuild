@@ -21,9 +21,4 @@ steps:
     scriptPath: 'restartnginx.sh'
   displayName: 'Restart Nginx Service'
 
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      curl http://20.244.35.154
-  displayName: 'Test Nginx Deployment'
+
