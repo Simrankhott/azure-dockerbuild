@@ -5,24 +5,16 @@ pool:
   name: mycomputeragent
 
 steps:
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      choco install nginx -y
-      echo "<h1>Hello World</h1>" | Out-File -FilePath 'C:\Program Files\nginx\html\index.html' -Encoding utf8
+- script: |
+    choco install nginx -y
+    echo "<h1>Hello World</h1>" | Out-File -FilePath 'C:\Program Files (x86)\nginx\html\index.html' -Encoding utf8
   displayName: 'Install Nginx and Deploy Hello World'
 
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      Start-Service nginx
+- script: |
+    sc.exe stop nginx
+    sc.exe start nginx
   displayName: 'Restart Nginx Service'
 
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      Invoke-WebRequest -UseBasicParsing http://localhost
+- script: |
+    Invoke-WebRequest http://localhost:80
   displayName: 'Test Nginx Deployment'
