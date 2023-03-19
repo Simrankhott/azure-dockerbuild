@@ -1,16 +1,15 @@
 trigger:
 - master
 
-pool: newagent
-
 resources:
 - repo: self
 
-steps:
+pool: newagent
+
+stages:
 - task: Docker@2
   inputs:
     containerRegistry: 'myconnection'
     repository: 'meriregistryhai'
-    command: 'buildAndPush'
+    command: 'build'
     Dockerfile: 'Dockerfile'
-    tags: 'latest'
