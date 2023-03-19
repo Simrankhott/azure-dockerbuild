@@ -1,25 +1,24 @@
 trigger:
 - main
 
-pool: newagent
+pool:
+  name: newagent
 
 steps:
-- task: UsePythonVersion@0
+- task: ShellScript@2
   inputs:
-    versionSpec: '3.x'
-    architecture: 'x64'
+    scriptPath: 'update.sh'
+  displayName: 'Updating Ubuntu Server'
 
 - script: |
     sudo apt-get update
     sudo apt-get install nginx -y
-    echo "<h1>Hello World</h1>" | sudo tee /var/www/html/index.html
+    echo "<h1>Hello World deployed using Azure Pipeline</h1>" | sudo tee /var/www/html/index.html
   displayName: 'Install Nginx and Deploy Hello World'
 
-- task: Bash@3
+- task: ShellScript@2
   inputs:
-    targetType: 'inline'
-    script: |
-      sudo systemctl restart nginx
+    scriptPath: 'restartnginx.sh'
   displayName: 'Restart Nginx Service'
 
 - task: Bash@3
