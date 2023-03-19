@@ -1,28 +1,21 @@
 trigger:
 - main
 
-
-pool: mycomputeragent
+pool:
+  name: mycomputeragent
 
 steps:
-- task: Deploying nginx using Azure ci/cd 
-
 - script: |
     sudo apt-get update -y
     sudo apt-get install nginx -y
+    sudo systemctl start nginx
     echo "<h1>Hello World</h1>" | sudo tee /var/www/html/index.html
   displayName: 'Install Nginx and Deploy Hello World'
 
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      sudo systemctl restart nginx
+- script: |
+    sudo systemctl restart nginx
   displayName: 'Restart Nginx Service'
 
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      curl http://20.244.35.154
+- script: |
+    curl http://20.244.35.154
   displayName: 'Test Nginx Deployment'
