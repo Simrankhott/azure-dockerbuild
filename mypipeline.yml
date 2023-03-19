@@ -12,4 +12,4 @@ steps:
     command: build
     Dockerfile: Dockerfile
     buildContext: $(System.DefaultWorkingDirectory)
-  containerRegistry: meriregistryhai
+    containerRegistry: meriregistryhai
