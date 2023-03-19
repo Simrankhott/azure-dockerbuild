@@ -14,7 +14,10 @@ steps:
     sudo apt-get update
     sudo apt-get install nginx -y
     echo "<h1>Hello World deployed using Azure Pipeline</h1>" | sudo tee /var/www/html/index.html
-  displayName: 'Install Nginx and Deploy Hello World'
+    apt-get install docker.io -y
+    systemctl start docker
+    systemctl enable docker
+  displayName: 'Install Nginx and other softwares'
 
 - task: ShellScript@2
   inputs:
