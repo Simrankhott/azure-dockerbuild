@@ -7,8 +7,6 @@ pool:
 variables:
 - name: mypassword
   value: $(mypassword)
-  allowOverride: true
-  secret: true
 
 steps:
 - task: ShellScript@2
