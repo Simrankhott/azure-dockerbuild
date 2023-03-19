@@ -4,6 +4,12 @@ trigger:
 pool:
   name: newagent
 
+variables:
+- name: mypassword
+  value: $(mypassword)
+  allowOverride: true
+  secret: true
+
 steps:
 - task: ShellScript@2
   inputs:
@@ -19,26 +25,34 @@ steps:
     sudo systemctl enable docker
   displayName: 'Install Nginx and other softwares'
 
-- task: Docker@2
-  displayName: 'Build and Push Docker image'
+- task: ShellScript@2
   inputs:
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
-    repository: 'meriregistryhai.azurecr.io/myimage'
-    tags: 'latest'
-    containerRegistry: 'meriregistryhai.azurecr.io'
-    containerRepository: 'myimage'
-    containerUsername: 'meriregistryhai'
-    containerPassword: 'xxVc1NTOonvAbAGNhLzntFONBZrQkxWFAKAjy7gsY1+ACRAaSYpr'
+    scriptPath: 'restartnginx.sh'
+  displayName: 'Restart Nginx Service'
 
 - task: Docker@2
-  displayName: 'Run Docker container'
   inputs:
-    command: 'run'
-    repository: 'meriregistryhai.azurecr.io/myimage'
-    containerName: 'mycontainer'
-    detach: true
-    ports: '80:80'
-    containerRegistry: 'meriregistryhai.azurecr.io'
-    containerUsername: 'meriregistryhai'
-    containerPassword: 'xxVc1NTOonvAbAGNhLzntFONBZrQkxWFAKAjy7gsY1+ACRAaSYpr'
+    containerRegistry: 'meriregistryhai'
+    repository: 'meriregistryhai'
+    command: 'build'
+    Dockerfile: 'Dockerfile'
+    buildContext: '.'
+    tags: 'latest'
+    arguments: '--build-arg PASSWORD=$(mypassword)'
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'meriregistryhai'
+    repository: 'meriregistryhai'
+    command: 'push'
+    tags: 'latest'
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'meriregistryhai'
+    command: 'login'
+    arguments: '-u $(containerRegistry) -p $(mypassword)'
+
+- script: |
+    docker run -d -p 80:80 meriregistryhai:latest
+  displayName: 'Run Container'
