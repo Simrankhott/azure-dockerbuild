@@ -7,6 +7,19 @@ resources:
 pool: simran
 
 stages:
+- stage: InstallDocker
+  jobs:
+  - job: InstallDockerJob
+    steps:
+    - task: Bash@3
+      displayName: 'Install and start docker'
+      inputs:
+        targetType: 'inline'
+        script: |
+          sudo apt-get update -y
+          sudo apt-get install docker.io -y
+          sudo systemctl start docker
+          sudo systemctl enable docker
 - stage: Build
   jobs:
   - job: BuildJob
