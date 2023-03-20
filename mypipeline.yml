@@ -4,16 +4,18 @@ trigger:
 resources:
 - repo: self
 
-pool: newagent
+pool: simran
 
 stages:
 - stage: Build
   jobs:
   - job: BuildJob
     steps:
-    - task: Docker@2
+    - task: Docker@0
+      displayName: 'Build an image'
       inputs:
-        containerRegistry: 'myconnection'
-        repository: 'meriregistryhai'
-        command: 'build'
-        Dockerfile: 'Dockerfile'
+        azureSubscription: 'Free Trial (658f29a4-9962-42fb-b5db-893e4c664081)'
+        azureContainerRegistry: '{"loginServer":"meriregistryhai.azurecr.io", "id" : "/subscriptions/658f29a4-9962-42fb-b5db-893e4c664081/resourceGroups/myresource/providers/Microsoft.ContainerRegistry/registries/meriregistryhai"}'
+        dockerFile: dockerfile
+        imageName: myimage
+        additionalImageTags: v1
