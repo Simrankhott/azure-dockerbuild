@@ -4,15 +4,17 @@ trigger:
 resources:
 - repo: self
 
-pool: simran
+pool:
+  name: simran
 
 stages:
 - stage: InstallDocker
   jobs:
   - job: InstallDockerJob
+    displayName: 'Install Docker'
     steps:
     - task: Bash@3
-      displayName: 'Install and start docker'
+      displayName: 'Install and start Docker'
       inputs:
         targetType: 'inline'
         script: |
@@ -20,15 +22,17 @@ stages:
           sudo apt-get install docker.io -y
           sudo systemctl start docker
           sudo systemctl enable docker
-- task: Docker@0
-  displayName: 'Build an image'
-  inputs:
-    azureSubscription: 'Free Trial (658f29a4-9962-42fb-b5db-893e4c664081)'
-    azureContainerRegistry: '{"loginServer":"meriregistryhai.azurecr.io", "id" : "/subscriptions/658f29a4-9962-42fb-b5db-893e4c664081/resourceGroups/myresource/providers/Microsoft.ContainerRegistry/registries/meriregistryhai"}'
-    dockerFile: dockerfile
-    imageName: myimage
-    additionalImageTags: v1
-  env:
-    sudo: enabled
 
-
+- stage: BuildDockerImage
+  jobs:
+  - job: BuildDockerImageJob
+    displayName: 'Build Docker Image'
+    steps:
+    - task: Docker@2
+      displayName: 'Build an image'
+      inputs:
+        azureSubscription: 'Free Trial (658f29a4-9962-42fb-b5db-893e4c664081)'
+        azureContainerRegistry: '{"loginServer":"meriregistryhai.azurecr.io", "id":"/subscriptions/658f29a4-9962-42fb-b5db-893e4c664081/resourceGroups/myresource/providers/Microsoft.ContainerRegistry/registries/meriregistryhai"}'
+        dockerFile: '**/Dockerfile'
+        imageName: 'meriregistryhai.azurecr.io/myimage:$(Build.BuildId)'
+        includeLatestTag: true
