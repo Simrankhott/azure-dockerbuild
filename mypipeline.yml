@@ -33,6 +33,6 @@ stages:
       inputs:
         azureSubscription: 'Free Trial (658f29a4-9962-42fb-b5db-893e4c664081)'
         azureContainerRegistry: '{"loginServer":"meriregistryhai.azurecr.io", "id":"/subscriptions/658f29a4-9962-42fb-b5db-893e4c664081/resourceGroups/myresource/providers/Microsoft.ContainerRegistry/registries/meriregistryhai"}'
-        dockerFile: '**/Dockerfile'
+        dockerFile: dockerfile
         imageName: 'meriregistryhai.azurecr.io/myimage:$(Build.BuildId)'
         includeLatestTag: true
