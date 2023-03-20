@@ -20,15 +20,15 @@ stages:
           sudo apt-get install docker.io -y
           sudo systemctl start docker
           sudo systemctl enable docker
-- stage: Build
-  jobs:
-  - job: BuildJob
-    steps:
-    - task: Docker@0
-      displayName: 'Build an image'
-      inputs:
-        azureSubscription: 'Free Trial (658f29a4-9962-42fb-b5db-893e4c664081)'
-        azureContainerRegistry: '{"loginServer":"meriregistryhai.azurecr.io", "id" : "/subscriptions/658f29a4-9962-42fb-b5db-893e4c664081/resourceGroups/myresource/providers/Microsoft.ContainerRegistry/registries/meriregistryhai"}'
-        dockerFile: dockerfile
-        imageName: myimage
-        additionalImageTags: v1
+- task: Docker@0
+  displayName: 'Build an image'
+  inputs:
+    azureSubscription: 'Free Trial (658f29a4-9962-42fb-b5db-893e4c664081)'
+    azureContainerRegistry: '{"loginServer":"meriregistryhai.azurecr.io", "id" : "/subscriptions/658f29a4-9962-42fb-b5db-893e4c664081/resourceGroups/myresource/providers/Microsoft.ContainerRegistry/registries/meriregistryhai"}'
+    dockerFile: dockerfile
+    imageName: myimage
+    additionalImageTags: v1
+  env:
+    sudo: enabled
+
+
