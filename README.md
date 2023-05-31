@@ -31,3 +31,12 @@ Build with Maven: Use the maven:3-jdk-11 builder to build the application using 
 Copy Artifact: Use the gcr.io/cloud-builders/gcloud builder to copy the generated artifact to a new directory.
 Copy to Bucket: Use the gcr.io/cloud-builders/gcloud builder to copy the artifact to a Google Cloud Storage bucket.
 Save the Cloud Build pipeline configuration and trigger the build.
+
+<img width="960" alt="azureci" src="https://github.com/Simrankhott/azure-dockerbuild/assets/91006102/1d478d43-938f-4d89-975b-e2aba65428ab">
+<br>
+<br>
+<img width="960" alt="azuredockerci" src="https://github.com/Simrankhott/azure-dockerbuild/assets/91006102/c9175ebc-7a67-4fc3-b9fc-a3f8ed5bb3ba">
+<br>
+<img width="960" alt="azureimage" src="https://github.com/Simrankhott/azure-dockerbuild/assets/91006102/35285192-097d-46c9-addd-3120ec305f74">
+
+
